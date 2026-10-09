@@ -2,6 +2,7 @@
   "use strict";
 
   const envelope = document.getElementById("envelopeContainer");
+  const waxSeal = document.getElementById("waxSealTrigger");
   const letter = document.getElementById("slidingLetter");
   const closeButton = document.getElementById("closeSlideBtn");
   const yesButton = document.getElementById("yesSlideBtn");
@@ -28,6 +29,7 @@
   let hasResponded = false;
   let toastTimer = null;
   let openTimer = null;
+  let shatterTimer = null;
   let focusBeforeOpen = null;
 
   function showToast(text) {
@@ -46,6 +48,16 @@
     focusBeforeOpen = document.activeElement;
     envelope.classList.remove("is-hidden");
     envelope.classList.add("open");
+    if (waxSeal) {
+      waxSeal.classList.remove("shattering");
+      // Restart the fragment animation if the invitation is opened again.
+      void waxSeal.offsetWidth;
+      waxSeal.classList.add("shattering");
+      shatterTimer = window.setTimeout(() => {
+        waxSeal.classList.remove("shattering");
+        shatterTimer = null;
+      }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 30 : 720);
+    }
     envelope.setAttribute("aria-label", "Envelope opened");
     document.body.classList.add("letter-open");
     openTimer = window.setTimeout(() => {
@@ -74,6 +86,11 @@
       window.clearTimeout(openTimer);
       openTimer = null;
     }
+    if (shatterTimer) {
+      window.clearTimeout(shatterTimer);
+      shatterTimer = null;
+    }
+    if (waxSeal) waxSeal.classList.remove("shattering");
     letter.classList.remove("slide-up");
     letter.setAttribute("aria-hidden", "true");
     document.body.classList.remove("letter-open");
