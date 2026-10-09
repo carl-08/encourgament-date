@@ -339,16 +339,16 @@ button:focus-visible, [role="button"]:focus-visible {
   transform-origin: 50% 50%;
   pointer-events: none;
 }
-.wax-shard--one { --dx: -42px; --dy: -37px; --rot: -128deg; clip-path: polygon(10% 0, 82% 16%, 100% 52%, 61% 67%, 48% 100%, 0 58%); }
-.wax-shard--two { --dx: 26px; --dy: -45px; --rot: 92deg; width: 18%; height: 23%; clip-path: polygon(17% 0, 100% 25%, 77% 64%, 48% 100%, 0 49%); }
-.wax-shard--three { --dx: 46px; --dy: -12px; --rot: 164deg; width: 20%; height: 21%; clip-path: polygon(0 11%, 67% 0, 100% 46%, 73% 100%, 23% 75%); }
-.wax-shard--four { --dx: 36px; --dy: 38px; --rot: -73deg; width: 19%; height: 24%; clip-path: polygon(25% 0, 100% 18%, 82% 61%, 53% 100%, 0 68%); }
-.wax-shard--five { --dx: -24px; --dy: 43px; --rot: 132deg; width: 22%; height: 22%; clip-path: polygon(0 20%, 49% 0, 100% 37%, 76% 100%, 25% 81%); }
-.wax-shard--six { --dx: -46px; --dy: 7px; --rot: 205deg; width: 17%; height: 20%; clip-path: polygon(28% 0, 100% 38%, 69% 100%, 0 66%); }
-.wax-shard--seven { --dx: -14px; --dy: -51px; --rot: -48deg; width: 15%; height: 18%; clip-path: polygon(0 15%, 71% 0, 100% 63%, 40% 100%); }
-.wax-shard--eight { --dx: 12px; --dy: 50px; --rot: 72deg; width: 17%; height: 16%; clip-path: polygon(15% 0, 100% 29%, 70% 100%, 0 68%); }
-.wax-shard--nine { --dx: 51px; --dy: 22px; --rot: -156deg; width: 15%; height: 18%; clip-path: polygon(0 0, 81% 17%, 100% 75%, 26% 100%); }
-.wax-shard--ten { --dx: -51px; --dy: -18px; --rot: 118deg; width: 14%; height: 17%; clip-path: polygon(18% 0, 100% 41%, 58% 100%, 0 57%); }
+.wax-shard--one { --dx: -42px; --dy: -37px; --rot: -128deg; --mid-x: -8px; --mid-y: -7px; --mid-rot: -22deg; --near-x: -24px; --near-y: -21px; --near-rot: -74deg; clip-path: polygon(10% 0, 82% 16%, 100% 52%, 61% 67%, 48% 100%, 0 58%); }
+.wax-shard--two { --dx: 26px; --dy: -45px; --rot: 92deg; --mid-x: 5px; --mid-y: -9px; --mid-rot: 16deg; --near-x: 15px; --near-y: -26px; --near-rot: 53deg; width: 18%; height: 23%; clip-path: polygon(17% 0, 100% 25%, 77% 64%, 48% 100%, 0 49%); }
+.wax-shard--three { --dx: 46px; --dy: -12px; --rot: 164deg; --mid-x: 9px; --mid-y: -2px; --mid-rot: 28deg; --near-x: 27px; --near-y: -7px; --near-rot: 95deg; width: 20%; height: 21%; clip-path: polygon(0 11%, 67% 0, 100% 46%, 73% 100%, 23% 75%); }
+.wax-shard--four { --dx: 36px; --dy: 38px; --rot: -73deg; --mid-x: 7px; --mid-y: 8px; --mid-rot: -12deg; --near-x: 21px; --near-y: 22px; --near-rot: -42deg; width: 19%; height: 24%; clip-path: polygon(25% 0, 100% 18%, 82% 61%, 53% 100%, 0 68%); }
+.wax-shard--five { --dx: -24px; --dy: 43px; --rot: 132deg; --mid-x: -5px; --mid-y: 9px; --mid-rot: 22deg; --near-x: -14px; --near-y: 25px; --near-rot: 76deg; width: 22%; height: 22%; clip-path: polygon(0 20%, 49% 0, 100% 37%, 76% 100%, 25% 81%); }
+.wax-shard--six { --dx: -46px; --dy: 7px; --rot: 205deg; --mid-x: -9px; --mid-y: 1px; --mid-rot: 35deg; --near-x: -27px; --near-y: 4px; --near-rot: 119deg; width: 17%; height: 20%; clip-path: polygon(28% 0, 100% 38%, 69% 100%, 0 66%); }
+.wax-shard--seven { --dx: -14px; --dy: -51px; --rot: -48deg; --mid-x: -3px; --mid-y: -10px; --mid-rot: -8deg; --near-x: -8px; --near-y: -30px; --near-rot: -28deg; width: 15%; height: 18%; clip-path: polygon(0 15%, 71% 0, 100% 63%, 40% 100%); }
+.wax-shard--eight { --dx: 12px; --dy: 50px; --rot: 72deg; --mid-x: 2px; --mid-y: 10px; --mid-rot: 12deg; --near-x: 7px; --near-y: 29px; --near-rot: 42deg; width: 17%; height: 16%; clip-path: polygon(15% 0, 100% 29%, 70% 100%, 0 68%); }
+.wax-shard--nine { --dx: 51px; --dy: 22px; --rot: -156deg; --mid-x: 10px; --mid-y: 4px; --mid-rot: -27deg; --near-x: 30px; --near-y: 13px; --near-rot: -90deg; width: 15%; height: 18%; clip-path: polygon(0 0, 81% 17%, 100% 75%, 26% 100%); }
+.wax-shard--ten { --dx: -51px; --dy: -18px; --rot: 118deg; --mid-x: -10px; --mid-y: -4px; --mid-rot: 20deg; --near-x: -30px; --near-y: -10px; --near-rot: 68deg; width: 14%; height: 17%; clip-path: polygon(18% 0, 100% 41%, 58% 100%, 0 57%); }
 .wax-dust {
   position: absolute;
   z-index: 3;
@@ -391,16 +391,16 @@ button:focus-visible, [role="button"]:focus-visible {
   100% { transform: scale(.48) rotate(9deg); opacity: 0; }
 }
 @keyframes wax-shatter {
-  0% { opacity: 0; transform: translate(-50%, -50%) scale(.12) rotate(0); }
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.12) rotate(0deg); }
   10% { opacity: 1; }
-  28% { opacity: 1; transform: translate(calc(-50% + var(--dx) * .16), calc(-50% + var(--dy) * .16)) scale(1.08) rotate(calc(var(--rot) * .12)); }
-  54% { opacity: .98; transform: translate(calc(-50% + var(--dx) * .58), calc(-50% + var(--dy) * .58)) scale(.92) rotate(calc(var(--rot) * .58)); }
-  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.54) rotate(var(--rot)); }
+  28% { opacity: 1; transform: translate(var(--mid-x), var(--mid-y)) scale(1.08) rotate(var(--mid-rot)); }
+  54% { opacity: .98; transform: translate(var(--near-x), var(--near-y)) scale(.92) rotate(var(--near-rot)); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.54) rotate(var(--rot)); }
 }
 @keyframes wax-dust-burst {
   0% { opacity: 0; transform: translate(-50%, -50%) scale(.5); }
   20% { opacity: .95; }
-  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.25) rotate(75deg); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.25) rotate(75deg); }
 }
 .envelope-container:hover .wax-seal {
   transform: translate(-50%, -50%) scale(1.045) rotate(-3deg);
