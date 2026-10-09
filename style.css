@@ -330,20 +330,29 @@ button:focus-visible, [role="button"]:focus-visible {
 .wax-shard--five { --dx: -34px; --dy: 39px; --rot: 88deg; width: 20%; height: 23%; }
 .wax-shard--six { --dx: -45px; --dy: 3px; --rot: 145deg; width: 18%; height: 22%; }
 .wax-seal.shattering svg {
-  animation: wax-core-crack .2s ease-out forwards;
+  animation: wax-core-crack 1.25s cubic-bezier(.2,.65,.25,1) forwards;
 }
 .wax-seal.shattering .wax-shard {
-  animation: wax-shatter .68s cubic-bezier(.16,.72,.25,1) forwards;
+  animation: wax-shatter 1.45s cubic-bezier(.18,.65,.25,1) forwards;
+}
+.wax-seal.broken svg {
+  opacity: 0;
+}
+.wax-seal.broken .wax-shard {
+  opacity: 0;
 }
 @keyframes wax-core-crack {
-  0% { transform: scale(1) rotate(0); opacity: 1; }
-  40% { transform: scale(.96) rotate(-3deg); opacity: .9; }
-  100% { transform: scale(.7) rotate(7deg); opacity: 0; }
+  0% { transform: scale(1) rotate(0); opacity: 1; filter: brightness(1); }
+  18% { transform: scale(1.035) rotate(-2deg); opacity: 1; filter: brightness(1.14); }
+  36% { transform: scale(.98) rotate(2deg); opacity: 1; filter: brightness(.98); }
+  58% { transform: scale(.88) rotate(-3deg); opacity: .88; }
+  100% { transform: scale(.55) rotate(8deg); opacity: 0; }
 }
 @keyframes wax-shatter {
-  0% { opacity: 0; transform: translate(-50%, -50%) scale(.25) rotate(0); }
-  12% { opacity: 1; }
-  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.7) rotate(var(--rot)); }
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.15) rotate(0); }
+  14% { opacity: 1; }
+  38% { opacity: 1; transform: translate(calc(-50% + var(--dx) * .38), calc(-50% + var(--dy) * .38)) scale(1) rotate(calc(var(--rot) * .35)); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.68) rotate(var(--rot)); }
 }
 .envelope-container:hover .wax-seal {
   transform: translate(-50%, -50%) scale(1.045) rotate(-3deg);
@@ -354,12 +363,15 @@ button:focus-visible, [role="button"]:focus-visible {
   animation: envelope-away .72s .82s ease-in forwards;
 }
 .envelope-container.open .flap { transform: rotateX(180deg); filter: drop-shadow(0 -2px 2px rgba(84,35,47,.08)); }
-.envelope-container.open .wax-seal:not(.shattering) {
+.envelope-container.open .wax-seal:not(.shattering):not(.broken) {
   opacity: 0;
   transform: translate(-50%, -50%) scale(.7) rotate(12deg);
 }
 .envelope-container.open .wax-seal.shattering {
   opacity: 1;
+}
+.envelope-container.open .wax-seal.broken {
+  opacity: 0;
 }
 @media (prefers-reduced-motion: reduce) {
   .wax-seal.shattering svg,
