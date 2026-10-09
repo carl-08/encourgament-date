@@ -185,29 +185,30 @@ button:focus-visible, [role="button"]:focus-visible {
   cursor: pointer;
   outline: none;
   perspective: 1000px;
-  filter: drop-shadow(0 25px 30px rgba(84, 35, 47, .16));
+  filter: drop-shadow(0 26px 23px rgba(79, 36, 43, .23)) drop-shadow(0 5px 4px rgba(79, 36, 43, .1));
   transition: transform .35s ease, filter .35s ease;
   animation: envelope-arrive .9s cubic-bezier(.2,.75,.25,1) both;
 }
 .envelope-container:hover {
   transform: translateY(-5px);
-  filter: drop-shadow(0 31px 34px rgba(84, 35, 47, .2));
+  filter: drop-shadow(0 31px 28px rgba(79, 36, 43, .26)) drop-shadow(0 6px 5px rgba(79, 36, 43, .12));
 }
 .envelope {
   position: absolute;
   isolation: isolate;
   inset: 0;
   overflow: visible;
-  border: 1px solid rgba(116, 57, 66, .17);
+  border: 1px solid rgba(116, 57, 66, .2);
   border-radius: 8px 8px 12px 12px;
   background:
-    linear-gradient(135deg, rgba(255,255,255,.26), transparent 42%),
-    radial-gradient(ellipse at 50% 100%, rgba(139,65,77,.14), transparent 58%),
-    linear-gradient(145deg, #f8e3dc 0%, #f0c9c8 52%, #e6b4ba 100%);
+    radial-gradient(ellipse at 20% 12%, rgba(255,255,255,.5), transparent 38%),
+    radial-gradient(ellipse at 82% 88%, rgba(126,47,65,.16), transparent 43%),
+    linear-gradient(145deg, #f8e4dc 0%, #f1ccca 47%, #e7b4ba 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.92),
-    inset 0 -1px 0 rgba(118,47,64,.13),
-    0 2px 4px rgba(84,35,47,.06);
+    inset 0 2px 1px rgba(255,255,255,.85),
+    inset 0 -3px 7px rgba(125,54,69,.1),
+    inset 2px 0 5px rgba(255,255,255,.18),
+    0 1px 2px rgba(84,35,47,.1);
 }
 .envelope::before {
   position: absolute;
@@ -231,9 +232,11 @@ button:focus-visible, [role="button"]:focus-visible {
 .envelope-paper {
   position: absolute;
   inset: 5% 7% 9%;
-  border: 1px solid rgba(197,161,91,.28);
-  background: linear-gradient(155deg, #fffdf9, #fff7ee);
-  box-shadow: 0 2px 8px rgba(84,35,47,.08);
+  border: 1px solid rgba(197,161,91,.36);
+  background:
+    repeating-linear-gradient(0deg, rgba(143,104,79,.018) 0, rgba(143,104,79,.018) 1px, transparent 1px, transparent 4px),
+    linear-gradient(155deg, #fffefa, #fff6eb);
+  box-shadow: 0 3px 10px rgba(84,35,47,.11), inset 0 1px 0 rgba(255,255,255,.95);
 }
 .envelope-pocket {
   position: absolute;
@@ -242,9 +245,12 @@ button:focus-visible, [role="button"]:focus-visible {
   overflow: hidden;
   border-radius: inherit;
   background:
-    linear-gradient(135deg, rgba(255,255,255,.18), transparent 48%),
+    linear-gradient(32deg, transparent 49.55%, rgba(255,248,239,.38) 49.8%, rgba(255,248,239,.38) 50%, transparent 50.25%),
+    linear-gradient(-32deg, transparent 49.55%, rgba(130,57,70,.11) 49.8%, rgba(130,57,70,.11) 50%, transparent 50.25%),
+    linear-gradient(135deg, rgba(255,255,255,.2), transparent 48%),
     linear-gradient(145deg, #f5d7d3 0%, #efc4c5 48%, #eab9c0 100%);
   clip-path: polygon(0 0, 50% 53%, 100% 0, 100% 100%, 0 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
 }
 .envelope-pocket::before, .envelope-pocket::after {
   position: absolute;
@@ -265,12 +271,13 @@ button:focus-visible, [role="button"]:focus-visible {
   transform: rotateX(0);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   background:
-    linear-gradient(135deg, rgba(255,255,255,.32), transparent 58%),
-    linear-gradient(160deg, #f9e5dd 0%, #f0c7c7 58%, #e5afb8 100%);
+    linear-gradient(145deg, transparent 49.35%, rgba(130,57,70,.13) 49.7%, rgba(255,249,241,.42) 50%, transparent 50.35%),
+    linear-gradient(135deg, rgba(255,255,255,.42), transparent 56%),
+    linear-gradient(160deg, #fae8e0 0%, #f1cecb 55%, #e5afb8 100%);
   border-radius: 8px 8px 0 0;
   backface-visibility: visible;
   transition: transform .78s cubic-bezier(.2,.7,.25,1), filter .6s ease;
-  filter: drop-shadow(0 4px 3px rgba(84,35,47,.13));
+  filter: drop-shadow(0 5px 4px rgba(84,35,47,.17));
 }
 .flap::after {
   position: absolute;
@@ -304,7 +311,7 @@ button:focus-visible, [role="button"]:focus-visible {
   display: block;
   width: clamp(4.8rem, 9vw, 5.8rem);
   transform: translate(-50%, -50%);
-  filter: drop-shadow(0 7px 8px rgba(84,35,47,.22));
+  filter: drop-shadow(0 8px 7px rgba(84,35,47,.28)) drop-shadow(0 1px 1px rgba(255,239,211,.35));
   transition: transform .3s ease, opacity .25s ease, filter .3s ease;
   pointer-events: none;
 }
