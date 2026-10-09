@@ -721,3 +721,103 @@ body.letter-open { overflow: hidden; }
     transition-duration: .01ms !important;
   }
 }
+
+
+/* Final response-panel polish: keep the dialog looking like stationery after a choice. */
+.sliding-letter,
+.sliding-letter:focus,
+.sliding-letter:focus-visible {
+  outline: none;
+  color: var(--ink);
+  font-family: var(--sans);
+}
+.sliding-letter {
+  border: 1px solid rgba(197, 161, 91, .7);
+  border-radius: 8px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.92), transparent 65%),
+    linear-gradient(90deg, rgba(197,161,91,.045) 1px, transparent 1px) 0 0 / 23px 23px,
+    linear-gradient(rgba(197,161,91,.03) 1px, transparent 1px) 0 0 / 23px 23px,
+    #fffaf4;
+  box-shadow: 0 24px 65px rgba(84,35,47,.24), 0 0 0 5px rgba(255,250,244,.6);
+}
+.sliding-letter::before {
+  border-color: rgba(197,161,91,.38);
+  border-radius: 4px;
+}
+.sliding-letter .letter-kicker {
+  color: #9a5964;
+  font-family: var(--sans);
+  text-align: center;
+}
+.sliding-letter .romantic-title {
+  color: var(--burgundy);
+  font-family: var(--serif-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.15;
+  text-align: center;
+}
+.sliding-letter .romantic-text {
+  color: #493638;
+  font-family: var(--serif-body);
+  font-size: clamp(1.05rem, 2.3vw, 1.2rem);
+  line-height: 1.85;
+  text-align: center;
+}
+.sliding-letter .signature {
+  color: var(--muted-ink);
+  font-family: var(--serif-body);
+  text-align: center;
+}
+.sliding-letter .signature span {
+  color: var(--burgundy);
+  font-family: var(--serif-display);
+}
+.sliding-letter .letter-buttons {
+  gap: .8rem;
+}
+.sliding-letter .button {
+  min-height: 3rem;
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: .85rem;
+  font-weight: 600;
+  box-shadow: 0 4px 0 rgba(84,35,47,.13);
+}
+.sliding-letter .button--primary {
+  border-color: var(--burgundy);
+  color: #fffaf6;
+  background: var(--burgundy);
+}
+.sliding-letter .button--secondary {
+  border-color: #d9b6b7;
+  color: var(--burgundy);
+  background: #fff3ef;
+  animation: none;
+  transform-origin: center;
+  will-change: transform;
+}
+.sliding-letter .button--secondary:hover:not(:disabled) {
+  border-color: var(--dusty-rose);
+  background: #f5dedb;
+  animation: maybe-later-tease .62s ease-in-out infinite;
+}
+.sliding-letter .button--secondary:active:not(:disabled) {
+  animation: maybe-later-press .34s ease-out;
+}
+.sliding-letter .button--secondary:disabled {
+  opacity: 1;
+  color: var(--burgundy);
+  background: #fff3ef;
+}
+.sliding-letter .response-note {
+  color: #94716f;
+  font-size: .66rem;
+  line-height: 1.7;
+  text-align: center;
+}
+@media (max-width: 640px) {
+  .sliding-letter { padding: 3rem 1.5rem 1.7rem; }
+  .sliding-letter .romantic-title { font-size: clamp(1.85rem, 8vw, 2.5rem); }
+  .sliding-letter .romantic-text { line-height: 1.7; }
+}
