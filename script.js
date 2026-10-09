@@ -32,6 +32,97 @@
   let shatterTimer = null;
   let focusBeforeOpen = null;
 
+  function setImportantStyles(element, styles) {
+    Object.entries(styles).forEach(([property, value]) => {
+      element.style.setProperty(property, value, "important");
+    });
+  }
+
+  function applyLetterPresentation(visible) {
+    // Inline fallback ensures the modal remains styled even if a mobile browser
+    // serves an older cached stylesheet or a selector fails to apply.
+    setImportantStyles(letter, {
+      position: "fixed",
+      "z-index": "10000",
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      display: "block",
+      "box-sizing": "border-box",
+      width: "min(34rem, calc(100vw - 2rem))",
+      "max-width": "calc(100vw - 2rem)",
+      "max-height": "min(88vh, 48rem)",
+      margin: "0",
+      padding: "clamp(2.8rem, 5vw, 3.5rem) clamp(1.25rem, 5vw, 3rem) 2rem",
+      overflow: "auto",
+      border: "1px solid rgba(197,161,91,.8)",
+      "border-radius": "9px",
+      background: "#fffaf4",
+      color: "#382a2a",
+      "box-shadow": "0 24px 75px rgba(67,30,38,.3), 0 0 0 5px rgba(255,250,244,.76), 0 0 0 6px rgba(197,161,91,.42)",
+      opacity: visible ? "1" : "0",
+      visibility: visible ? "visible" : "hidden",
+      "pointer-events": visible ? "auto" : "none",
+      transform: visible ? "translate(-50%, -50%) scale(1)" : "translate(-50%, calc(-50% + 1.25rem)) scale(.98)",
+      transition: "opacity .4s ease, transform .45s ease, visibility .4s",
+      "font-family": "Inter, system-ui, sans-serif"
+    });
+
+    if (window.matchMedia("(max-width: 640px)").matches) {
+      setImportantStyles(letter, {
+        width: "calc(100vw - 1.25rem)",
+        "max-width": "calc(100vw - 1.25rem)",
+        "max-height": "calc(100vh - 1.25rem)",
+        padding: "3rem 1.25rem 1.4rem"
+      });
+    }
+
+    setImportantStyles(closeButton, {
+      position: "absolute", top: ".95rem", right: ".95rem", "z-index": "3",
+      display: "grid", "place-items": "center", width: "2.5rem", height: "2.5rem",
+      border: "1px solid rgba(118,47,64,.16)", "border-radius": "50%",
+      color: "#762f40", background: "#fff9f3", "font-size": "1.6rem", cursor: "pointer"
+    });
+    setImportantStyles(title, {
+      display: "block", margin: "0", color: "#762f40",
+      "font-family": "'Playfair Display', Georgia, serif",
+      "font-size": "clamp(2rem, 5vw, 2.8rem)", "line-height": "1.15", "text-align": "center"
+    });
+    setImportantStyles(message, {
+      display: "block", "max-width": "26rem", margin: "1.3rem auto 1.5rem",
+      color: "#493638", "font-family": "Lora, Georgia, serif",
+      "font-size": "1.08rem", "line-height": "1.8", "text-align": "center"
+    });
+    setImportantStyles(signature, {
+      display: "block", margin: "0", color: "#7a6261",
+      "font-family": "Lora, Georgia, serif", "line-height": "1.8", "text-align": "center"
+    });
+    setImportantStyles(document.getElementById("letterButtons"), {
+      display: "flex", "flex-wrap": "wrap", "justify-content": "center",
+      "align-items": "center", gap: ".8rem", margin: "1.8rem 0 0"
+    });
+    setImportantStyles(yesButton, {
+      display: "inline-flex", "align-items": "center", "justify-content": "center",
+      "min-height": "3rem", padding: ".85rem 1.3rem", border: "1px solid #762f40",
+      "border-radius": "999px", color: "#fffaf6", background: "#762f40",
+      "font-family": "Inter, system-ui, sans-serif", "font-size": ".82rem", "font-weight": "600", opacity: "1"
+    });
+    setImportantStyles(laterButton, {
+      display: "inline-flex", "align-items": "center", "justify-content": "center",
+      "min-height": "3rem", padding: ".85rem 1.3rem", border: "1px solid #d9b6b7",
+      "border-radius": "999px", color: "#762f40", background: "#fff3ef",
+      "font-family": "Inter, system-ui, sans-serif", "font-size": ".82rem", "font-weight": "600", opacity: "1"
+    });
+    if (window.matchMedia("(max-width: 640px)").matches) {
+      setImportantStyles(document.getElementById("letterButtons"), {
+        "flex-direction": "column", "align-items": "stretch"
+      });
+      setImportantStyles(yesButton, { width: "100%" });
+      setImportantStyles(laterButton, { width: "100%" });
+    }
+  }
+
   function showToast(text) {
     if (toastTimer) window.clearTimeout(toastTimer);
     toast.textContent = text;
@@ -46,6 +137,7 @@
     if (isOpened) return;
     isOpened = true;
     focusBeforeOpen = document.activeElement;
+    applyLetterPresentation(false);
 
     // Do not add the .open class here. The envelope must remain closed during
     // the entire seal animation and the three-second pause.
@@ -76,6 +168,7 @@
 
       openTimer = window.setTimeout(() => {
         letter.classList.add("slide-up");
+        applyLetterPresentation(true);
         letter.setAttribute("aria-hidden", "false");
         closeButton.focus({ preventScroll: true });
         openTimer = null;
@@ -111,6 +204,7 @@
       waxSeal.classList.remove("shattering", "broken");
     }
     letter.classList.remove("slide-up");
+    applyLetterPresentation(false);
     letter.setAttribute("aria-hidden", "true");
     document.body.classList.remove("letter-open");
     envelope.classList.remove("open");
