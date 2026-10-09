@@ -198,17 +198,17 @@ button:focus-visible, [role="button"]:focus-visible {
   isolation: isolate;
   inset: 0;
   overflow: visible;
-  border: 1px solid rgba(116, 57, 66, .2);
+  border: 0;
   border-radius: 8px 8px 12px 12px;
   background:
-    radial-gradient(ellipse at 20% 12%, rgba(255,255,255,.5), transparent 38%),
-    radial-gradient(ellipse at 82% 88%, rgba(126,47,65,.16), transparent 43%),
+    radial-gradient(ellipse at 20% 12%, rgba(255,255,255,.48), transparent 38%),
+    radial-gradient(ellipse at 82% 88%, rgba(126,47,65,.18), transparent 43%),
     linear-gradient(145deg, #f8e4dc 0%, #f1ccca 47%, #e7b4ba 100%);
   box-shadow:
-    inset 0 2px 1px rgba(255,255,255,.85),
+    inset 0 2px 1px rgba(255,255,255,.75),
     inset 0 -3px 7px rgba(125,54,69,.1),
-    inset 2px 0 5px rgba(255,255,255,.18),
-    0 1px 2px rgba(84,35,47,.1);
+    inset 2px 0 5px rgba(255,255,255,.15),
+    0 1px 2px rgba(84,35,47,.08);
 }
 .envelope::before {
   position: absolute;
@@ -245,8 +245,6 @@ button:focus-visible, [role="button"]:focus-visible {
   overflow: hidden;
   border-radius: inherit;
   background:
-    linear-gradient(32deg, transparent 49.55%, rgba(255,248,239,.38) 49.8%, rgba(255,248,239,.38) 50%, transparent 50.25%),
-    linear-gradient(-32deg, transparent 49.55%, rgba(130,57,70,.11) 49.8%, rgba(130,57,70,.11) 50%, transparent 50.25%),
     linear-gradient(135deg, rgba(255,255,255,.2), transparent 48%),
     linear-gradient(145deg, #f5d7d3 0%, #efc4c5 48%, #eab9c0 100%);
   clip-path: polygon(0 0, 50% 53%, 100% 0, 100% 100%, 0 100%);
@@ -310,12 +308,49 @@ button:focus-visible, [role="button"]:focus-visible {
   left: 50%;
   display: block;
   width: clamp(4.8rem, 9vw, 5.8rem);
+  aspect-ratio: 1;
   transform: translate(-50%, -50%);
   filter: drop-shadow(0 8px 7px rgba(84,35,47,.28)) drop-shadow(0 1px 1px rgba(255,239,211,.35));
   transition: transform .3s ease, opacity .25s ease, filter .3s ease;
   pointer-events: none;
 }
-.wax-seal svg { display: block; width: 100%; height: auto; }
+.wax-seal svg { position: relative; z-index: 1; display: block; width: 100%; height: auto; overflow: visible; }
+.wax-shard {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: 24%;
+  height: 28%;
+  opacity: 0;
+  background: linear-gradient(135deg, #a44d5c 0%, #7c2e43 72%, #572031 100%);
+  border: 1px solid rgba(75, 27, 40, .55);
+  clip-path: polygon(12% 0, 100% 17%, 78% 100%, 0 72%);
+  box-shadow: inset 1px 1px 1px rgba(255,220,220,.22);
+  pointer-events: none;
+}
+.wax-shard--one { --dx: -43px; --dy: -34px; --rot: -78deg; }
+.wax-shard--two { --dx: 34px; --dy: -42px; --rot: 63deg; width: 20%; height: 22%; }
+.wax-shard--three { --dx: 45px; --dy: 6px; --rot: 112deg; width: 19%; height: 25%; }
+.wax-shard--four { --dx: 25px; --dy: 39px; --rot: -38deg; }
+.wax-shard--five { --dx: -34px; --dy: 39px; --rot: 88deg; width: 20%; height: 23%; }
+.wax-shard--six { --dx: -45px; --dy: 3px; --rot: 145deg; width: 18%; height: 22%; }
+.wax-seal.shattering svg {
+  animation: wax-core-crack .2s ease-out forwards;
+}
+.wax-seal.shattering .wax-shard {
+  animation: wax-shatter .68s cubic-bezier(.16,.72,.25,1) forwards;
+}
+@keyframes wax-core-crack {
+  0% { transform: scale(1) rotate(0); opacity: 1; }
+  40% { transform: scale(.96) rotate(-3deg); opacity: .9; }
+  100% { transform: scale(.7) rotate(7deg); opacity: 0; }
+}
+@keyframes wax-shatter {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.25) rotate(0); }
+  12% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.7) rotate(var(--rot)); }
+}
 .envelope-container:hover .wax-seal {
   transform: translate(-50%, -50%) scale(1.045) rotate(-3deg);
   filter: drop-shadow(0 10px 12px rgba(84,35,47,.24));
@@ -325,9 +360,18 @@ button:focus-visible, [role="button"]:focus-visible {
   animation: envelope-away .72s .4s ease-in forwards;
 }
 .envelope-container.open .flap { transform: rotateX(180deg); filter: drop-shadow(0 -2px 2px rgba(84,35,47,.08)); }
-.envelope-container.open .wax-seal {
+.envelope-container.open .wax-seal:not(.shattering) {
   opacity: 0;
   transform: translate(-50%, -50%) scale(.7) rotate(12deg);
+}
+.envelope-container.open .wax-seal.shattering {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wax-seal.shattering svg,
+  .wax-seal.shattering .wax-shard {
+    animation-duration: .01ms !important;
+  }
 }
 .envelope-container.is-hidden { visibility: hidden; }
 
