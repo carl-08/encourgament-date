@@ -246,7 +246,6 @@ button:focus-visible, [role="button"]:focus-visible {
     linear-gradient(145deg, #f5d7d3 0%, #efc4c5 48%, #eab9c0 100%);
   clip-path: polygon(0 0, 50% 53%, 100% 0, 100% 100%, 0 100%);
 }
-.envelope-pocket::marker { content: ""; }
 .envelope-pocket::before, .envelope-pocket::after {
   position: absolute;
   content: "";
