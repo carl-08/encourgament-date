@@ -1,205 +1,153 @@
-(function() {
-  // DOM elements
-  const envelopeContainer = document.getElementById('envelopeContainer');
-  const waxSeal = document.getElementById('waxSealTrigger');
-  const slidingLetter = document.getElementById('slidingLetter');
-  const closeSlideBtn = document.getElementById('closeSlideBtn');
-  const yesBtn = document.getElementById('yesSlideBtn');
-  const noBtn = document.getElementById('noSlideBtn');
-  const toast = document.getElementById('toastMsg');
-  
-  let isOpened = false;
-  let letterSlid = false;
-  let noButtonActive = true;
-  let noTouchCount = 0;
+(() => {
+  "use strict";
 
-  // Helper: toast message
-  function showToast(text, isHappy = true) {
+  const envelope = document.getElementById("envelopeContainer");
+  const letter = document.getElementById("slidingLetter");
+  const closeButton = document.getElementById("closeSlideBtn");
+  const yesButton = document.getElementById("yesSlideBtn");
+  const laterButton = document.getElementById("noSlideBtn");
+  const title = document.getElementById("letterTitle");
+  const message = document.getElementById("letterMessage");
+  const signature = document.getElementById("letterSignature");
+  const responseNote = document.getElementById("responseNote");
+  const toast = document.getElementById("toastMsg");
+
+  if (!envelope || !letter || !closeButton || !yesButton || !laterButton) {
+    console.error("Invitation setup failed: one or more required elements are missing.");
+    return;
+  }
+
+  const originalCopy = {
+    title: title.innerHTML,
+    message: message.textContent,
+    signature: signature.innerHTML,
+    note: responseNote.textContent
+  };
+
+  let isOpened = false;
+  let hasResponded = false;
+  let toastTimer = null;
+  let openTimer = null;
+  let focusBeforeOpen = null;
+
+  function showToast(text) {
+    if (toastTimer) window.clearTimeout(toastTimer);
     toast.textContent = text;
-    toast.style.backgroundColor = isHappy ? '#52B788' : '#e11d48';
-    toast.style.opacity = '1';
-    toast.style.visibility = 'visible';
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.visibility = 'hidden';
-    }, 2600);
+    toast.classList.add("is-visible");
+    toastTimer = window.setTimeout(() => {
+      toast.classList.remove("is-visible");
+      toastTimer = null;
+    }, 3200);
   }
-  
-  // Function to make No button move away (without triggering a "No" response)
-  function moveNoButton() {
-    if (noBtn.disabled) return;
-    if (!noButtonActive) return;
-    
-    noTouchCount++;
-    
-    // Get button position and viewport dimensions
-    const btnRect = noBtn.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    
-    // Calculate random new position (keep button within view)
-    const maxX = viewportWidth - btnRect.width - 30;
-    const maxY = viewportHeight - btnRect.height - 100;
-    const minX = 20;
-    const minY = 80;
-    
-    const newX = Math.random() * (maxX - minX) + minX;
-    const newY = Math.random() * (maxY - minY) + minY;
-    
-    // Apply new position with smooth animation
-    noBtn.style.position = 'fixed';
-    noBtn.style.left = newX + 'px';
-    noBtn.style.top = newY + 'px';
-    noBtn.style.transition = 'all 0.3s cubic-bezier(0.34, 1.2, 0.64, 1)';
-    
-    // Add bounce/shake effect
-    noBtn.style.transform = 'scale(0.9) rotate(3deg)';
-    setTimeout(() => {
-      if (noBtn && !noBtn.disabled) {
-        noBtn.style.transform = 'scale(1) rotate(0deg)';
-      }
-    }, 200);
-    
-    // Show playful message based on number of attempts
-    if (noTouchCount < 3) {
-      showToast(`Can't say no! 😜 (${3 - noTouchCount} tries left)`, false);
-    } else if (noTouchCount === 3) {
-      showToast("Okay okay! You got me! Date accepted! 🎉", true);
-      
-      // Transform No button into Yes button
-      noBtn.innerHTML = "Yes! Let's go! 💕";
-      noBtn.style.background = "var(--rose)";
-      noBtn.style.color = "white";
-      noBtn.style.boxShadow = "0 5px 0 #9f1239";
-      noBtn.style.position = 'relative';
-      noBtn.style.left = 'auto';
-      noBtn.style.top = 'auto';
-      noBtn.style.transform = 'scale(1)';
-      noBtn.disabled = false;
-      noButtonActive = true;
-      
-      // Remove the wiggle animation
-      noBtn.style.animation = 'none';
-      
-      // Update the message
-      const titleDiv = document.querySelector('.romantic-title');
-      const msgDiv = document.querySelector('.romantic-text');
-      const signatureSpan = document.querySelector('.signature');
-      if (titleDiv) titleDiv.innerHTML = "YOU MADE THE RIGHT CHOICE! 💗";
-      if (msgDiv) msgDiv.innerHTML = "Yay! Can't wait for our encouragement date this Sunday! See you there! 🌟";
-      if (signatureSpan) signatureSpan.innerHTML = "— Excitedly yours, Carl John 💫";
-      
-      // Make it work as Yes button
-      noBtn.removeEventListener('mouseenter', moveNoButton);
-      noBtn.removeEventListener('touchstart', moveNoButton);
-      noBtn.addEventListener('click', () => {
-        showToast("Yun oh, Cyrene! See you Sunday! 🎉", true);
-        noBtn.disabled = true;
-        yesBtn.disabled = true;
-      });
-      
-      // Disable original Yes button
-      yesBtn.disabled = true;
-      yesBtn.style.opacity = '0.6';
-    } else {
-      // After being caught, any further touches do nothing
-      noBtn.style.pointerEvents = 'none';
-    }
-  }
-  
-  // Open envelope and trigger sliding letter reveal
-  function openEnvelopeAndSlideLetter() {
+
+  function openLetter() {
     if (isOpened) return;
     isOpened = true;
-    
-    envelopeContainer.classList.add('open');
-    
-    setTimeout(() => {
-      if (!letterSlid) {
-        revealSlidingLetter();
-      }
-    }, 550);
+    focusBeforeOpen = document.activeElement;
+    envelope.classList.remove("is-hidden");
+    envelope.classList.add("open");
+    envelope.setAttribute("aria-label", "Envelope opened");
+    document.body.classList.add("letter-open");
+    openTimer = window.setTimeout(() => {
+      letter.classList.add("slide-up");
+      letter.setAttribute("aria-hidden", "false");
+      closeButton.focus({ preventScroll: true });
+      openTimer = null;
+    }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 480);
   }
-  
-  function revealSlidingLetter() {
-    if (letterSlid) return;
-    letterSlid = true;
-    
-    slidingLetter.classList.add('slide-up');
-    document.body.classList.add('letter-open');
-    
-    setTimeout(() => {
-      const title = document.querySelector('.romantic-title');
-      if(title) title.style.animation = 'gentlePulse 0.6s ease';
-    }, 400);
+
+  function resetResponse() {
+    hasResponded = false;
+    title.innerHTML = originalCopy.title;
+    message.textContent = originalCopy.message;
+    signature.innerHTML = originalCopy.signature;
+    responseNote.textContent = originalCopy.note;
+    yesButton.disabled = false;
+    laterButton.disabled = false;
+    yesButton.hidden = false;
+    laterButton.hidden = false;
   }
-  
+
   function closeLetter() {
-    if (!slidingLetter.classList.contains('slide-up')) return;
-    slidingLetter.classList.remove('slide-up');
-    document.body.classList.remove('letter-open');
-    showToast("💌 Letter closed. Refresh to experience again 💌", false);
+    if (!isOpened) return;
+    if (openTimer) {
+      window.clearTimeout(openTimer);
+      openTimer = null;
+    }
+    letter.classList.remove("slide-up");
+    letter.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("letter-open");
+    envelope.classList.remove("open");
+    envelope.classList.remove("is-hidden");
+    envelope.setAttribute("aria-label", "Open the envelope");
+    resetResponse();
+    isOpened = false;
+
+    if (focusBeforeOpen && typeof focusBeforeOpen.focus === "function") {
+      focusBeforeOpen.focus({ preventScroll: true });
+    } else {
+      envelope.focus({ preventScroll: true });
+    }
   }
-  
-  function handleYesResponse() {
-    showToast("Yun oh, Cyrene! See you Sunday! 🎉", true);
-    const msgDiv = document.querySelector('.romantic-text');
-    const titleDiv = document.querySelector('.romantic-title');
-    const signatureSpan = document.querySelector('.signature');
-    if (titleDiv) titleDiv.innerHTML = "MATSALAB BOSS! 💗";
-    if (msgDiv) msgDiv.innerHTML = "See you this Sunday! Can't wait to make chika and encouragement together! 🌟";
-    if (signatureSpan) signatureSpan.innerHTML = "— Regards, Carl John 💫";
-    yesBtn.disabled = true;
-    noBtn.disabled = true;
-    noButtonActive = false;
-    yesBtn.style.opacity = '0.6';
-    noBtn.style.opacity = '0.6';
+
+  function respondYes() {
+    if (hasResponded) return;
+    hasResponded = true;
+    title.textContent = "That makes me happy!";
+    message.textContent = "Yay! I’m looking forward to spending Sunday together. Let’s make it a lovely encouragement date.";
+    signature.innerHTML = "With a happy heart,<br><span>Carl John</span>";
+    responseNote.textContent = "Your yes has been noted — see you Sunday!";
+    yesButton.disabled = true;
+    laterButton.disabled = true;
+    showToast("Invitation accepted with a little love ♡");
   }
-  
-  // Event listeners
-  if (waxSeal) {
-    waxSeal.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (!isOpened) openEnvelopeAndSlideLetter();
-    });
+
+  function respondLater() {
+    if (hasResponded) return;
+    hasResponded = true;
+    title.textContent = "Thank you for letting me know";
+    message.textContent = "No worries at all. Take your time, and thank you for reading my little invitation.";
+    signature.innerHTML = "Wishing you a lovely day,<br><span>Carl John</span>";
+    responseNote.textContent = "No pressure. Maybe another time.";
+    yesButton.disabled = true;
+    laterButton.disabled = true;
+    showToast("That’s completely okay ♡");
   }
-  
-  if (envelopeContainer) {
-    envelopeContainer.addEventListener('click', (e) => {
-      if (e.target === waxSeal || waxSeal.contains(e.target)) return;
-      if (!isOpened) openEnvelopeAndSlideLetter();
-    });
-  }
-  
-  if (yesBtn) yesBtn.addEventListener('click', handleYesResponse);
-  
-  // NO BUTTON: Moves away instead of accepting "No"
-  if (noBtn) {
-    noBtn.addEventListener('mouseenter', moveNoButton);
-    noBtn.addEventListener('touchstart', moveNoButton);
-    noBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      moveNoButton();
-      return false;
-    });
-  }
-  
-  if (closeSlideBtn) closeSlideBtn.addEventListener('click', closeLetter);
-  slidingLetter.addEventListener('click', (e) => e.stopPropagation());
-  
-  envelopeContainer.addEventListener('animationend', (e) => {
-    if (e.animationName === 'envelopeFloatDown') {
-      envelopeContainer.style.visibility = 'hidden';
-      slidingLetter.style.zIndex = '250';
+
+  envelope.addEventListener("click", openLetter);
+  envelope.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openLetter();
     }
   });
-  
-  window.addEventListener('resize', () => {
-    if (slidingLetter.classList.contains('slide-up')) {
-      slidingLetter.style.transform = 'translate(-50%, 50%)';
+  yesButton.addEventListener("click", respondYes);
+  laterButton.addEventListener("click", respondLater);
+  closeButton.addEventListener("click", closeLetter);
+
+  document.addEventListener("keydown", (event) => {
+    if (!isOpened) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeLetter();
+      return;
+    }
+
+    if (event.key !== "Tab" || letter.getAttribute("aria-hidden") === "true") return;
+    const focusable = Array.from(letter.querySelectorAll('button:not(:disabled):not([hidden]), [href], [tabindex]:not([tabindex="-1"])'))
+      .filter((element) => !element.hasAttribute("disabled") && element.getClientRects().length > 0);
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
     }
   });
-  
-  console.log("Love letter ready! No button runs away on touch/hover!");
+
+  console.info("Encouragement Date invitation ready.");
 })();
