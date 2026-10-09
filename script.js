@@ -47,25 +47,37 @@
     isOpened = true;
     focusBeforeOpen = document.activeElement;
     envelope.classList.remove("is-hidden");
-    envelope.classList.add("open");
+    document.body.classList.add("letter-open");
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const shatterDuration = reduceMotion ? 30 : 1450;
+    const pauseAfterShatter = reduceMotion ? 0 : 420;
+    const flapDuration = reduceMotion ? 0 : 720;
+
+    // Phase 1: break the wax seal while the envelope stays still.
     if (waxSeal) {
       waxSeal.classList.remove("shattering");
-      // Restart the fragment animation if the invitation is opened again.
       void waxSeal.offsetWidth;
       waxSeal.classList.add("shattering");
-      shatterTimer = window.setTimeout(() => {
-        waxSeal.classList.remove("shattering");
-        shatterTimer = null;
-      }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 30 : 720);
     }
-    envelope.setAttribute("aria-label", "Envelope opened");
-    document.body.classList.add("letter-open");
+
+    // Phase 2: pause after the wax has visibly scattered, then open the envelope.
     openTimer = window.setTimeout(() => {
-      letter.classList.add("slide-up");
-      letter.setAttribute("aria-hidden", "false");
-      closeButton.focus({ preventScroll: true });
-      openTimer = null;
-    }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 480);
+      if (waxSeal) {
+        waxSeal.classList.remove("shattering");
+        waxSeal.classList.add("broken");
+      }
+      envelope.classList.add("open");
+      envelope.setAttribute("aria-label", "Envelope opened");
+
+      // Phase 3: let the flap move before revealing the letter.
+      openTimer = window.setTimeout(() => {
+        letter.classList.add("slide-up");
+        letter.setAttribute("aria-hidden", "false");
+        closeButton.focus({ preventScroll: true });
+        openTimer = null;
+      }, flapDuration + (reduceMotion ? 0 : 180));
+    }, shatterDuration + pauseAfterShatter);
   }
 
   function resetResponse() {
@@ -90,7 +102,9 @@
       window.clearTimeout(shatterTimer);
       shatterTimer = null;
     }
-    if (waxSeal) waxSeal.classList.remove("shattering");
+    if (waxSeal) {
+      waxSeal.classList.remove("shattering", "broken");
+    }
     letter.classList.remove("slide-up");
     letter.setAttribute("aria-hidden", "true");
     document.body.classList.remove("letter-open");
