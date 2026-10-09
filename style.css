@@ -821,3 +821,104 @@ body.letter-open { overflow: hidden; }
   .sliding-letter .romantic-title { font-size: clamp(1.85rem, 8vw, 2.5rem); }
   .sliding-letter .romantic-text { line-height: 1.7; }
 }
+
+
+/* Critical modal layout override: keep the letter as a true centered dialog. */
+body.letter-open #slidingLetter.sliding-letter {
+  position: fixed !important;
+  z-index: 1000 !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  width: min(34rem, calc(100vw - 2rem)) !important;
+  max-height: min(88svh, 48rem) !important;
+  margin: 0 !important;
+  overflow-y: auto !important;
+  padding: clamp(2.6rem, 5vw, 3.6rem) clamp(1.25rem, 5vw, 3.4rem) 2rem !important;
+  border: 1px solid rgba(197,161,91,.72) !important;
+  border-radius: 8px !important;
+  background-color: #fffaf4 !important;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.96), transparent 65%),
+    linear-gradient(90deg, rgba(197,161,91,.045) 1px, transparent 1px),
+    linear-gradient(rgba(197,161,91,.03) 1px, transparent 1px) !important;
+  background-size: auto, 23px 23px, 23px 23px !important;
+  color: #382a2a !important;
+  box-shadow: 0 24px 65px rgba(84,35,47,.24), 0 0 0 5px rgba(255,250,244,.6), 0 0 0 6px rgba(197,161,91,.3) !important;
+  font-family: var(--sans) !important;
+}
+body.letter-open #slidingLetter.sliding-letter.slide-up {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translate(-50%, -50%) scale(1) !important;
+}
+body.letter-open #slidingLetter.sliding-letter:not(.slide-up) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translate(-50%, calc(-50% + 2rem)) scale(.97) !important;
+}
+#slidingLetter .close-slide-letter {
+  top: 1rem !important;
+  right: 1rem !important;
+}
+#slidingLetter .letter-ornament { display: flex !important; }
+#slidingLetter .message-content { display: block !important; width: 100% !important; }
+#slidingLetter .letter-kicker {
+  display: block !important; margin: 0 0 .9rem !important; color: #c77d87 !important;
+  font-size: .61rem !important; letter-spacing: .16em !important; text-align: center !important;
+}
+#slidingLetter .romantic-title {
+  display: block !important; margin: 0 !important; color: #762f40 !important;
+  font-family: var(--serif-display) !important; font-size: clamp(2rem, 5vw, 3rem) !important;
+  line-height: 1.15 !important; text-align: center !important;
+}
+#slidingLetter .romantic-text {
+  display: block !important; max-width: 25rem !important; margin: 1.3rem auto 1.5rem !important;
+  color: #493638 !important; font-family: var(--serif-body) !important; font-size: 1.1rem !important;
+  line-height: 1.8 !important; text-align: center !important;
+}
+#slidingLetter .signature {
+  display: block !important; margin: 0 !important; color: #7a6261 !important;
+  font-family: var(--serif-body) !important; text-align: center !important;
+}
+#slidingLetter .signature span {
+  display: inline-block !important; color: #762f40 !important;
+  font-family: var(--serif-display) !important; font-size: 1.45rem !important;
+}
+#slidingLetter .letter-buttons {
+  display: flex !important; flex-wrap: wrap !important; justify-content: center !important;
+  align-items: center !important; gap: .8rem !important; margin: 1.8rem 0 0 !important;
+}
+#slidingLetter .button {
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  min-height: 3rem !important; padding: .85rem 1.3rem !important; border-radius: 999px !important;
+  font-family: var(--sans) !important; font-size: .82rem !important; font-weight: 600 !important;
+  opacity: 1 !important;
+}
+#slidingLetter .button--primary {
+  color: #fffaf6 !important; background: #762f40 !important; border: 1px solid #762f40 !important;
+}
+#slidingLetter .button--secondary {
+  color: #762f40 !important; background: #fff3ef !important; border: 1px solid #d9b6b7 !important;
+}
+#slidingLetter .button--secondary:hover:not(:disabled):not(.response-locked) {
+  animation: maybe-later-tease .62s ease-in-out infinite !important;
+}
+#slidingLetter .response-note {
+  display: block !important; margin: 1.2rem 0 0 !important; color: #94716f !important;
+  font-size: .66rem !important; line-height: 1.7 !important; text-align: center !important;
+}
+@media (max-width: 640px) {
+  body.letter-open #slidingLetter.sliding-letter {
+    width: calc(100vw - 1.25rem) !important;
+    max-height: calc(100svh - 1.25rem) !important;
+    padding: 3rem 1.35rem 1.5rem !important;
+  }
+  #slidingLetter .letter-buttons { flex-direction: column !important; align-items: stretch !important; }
+  #slidingLetter .button { width: 100% !important; }
+}
