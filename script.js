@@ -139,6 +139,12 @@
     focusBeforeOpen = document.activeElement;
     applyLetterPresentation(false);
 
+    // The letter must not exist in the visible layout before its reveal.
+    letter.hidden = false;
+    letter.classList.remove("slide-up");
+    letter.setAttribute("aria-hidden", "true");
+    applyLetterPresentation(false);
+
     // Do not add the .open class here. The envelope must remain closed during
     // the entire seal animation and the three-second pause.
     envelope.classList.remove("is-hidden", "open");
@@ -206,6 +212,7 @@
     letter.classList.remove("slide-up");
     applyLetterPresentation(false);
     letter.setAttribute("aria-hidden", "true");
+    letter.hidden = true;
     document.body.classList.remove("letter-open");
     envelope.classList.remove("open");
     envelope.classList.remove("is-hidden");
