@@ -1,53 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Envelope Love Letter | Encouragement Date</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f0">
+  <meta name="description" content="A little handwritten-style invitation for an encouragement date.">
+  <title>A Little Note for You | Encouragement Date</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-<div class="bg-deco"></div>
-<div class="scene">
-  <div class="envelope-container" id="envelopeContainer">
-    <div class="envelope" id="envelopeBase">
-      <div class="flap" id="flap"></div>
-      <div class="base-shadow"></div>
-      <div class="wax-seal" id="waxSealTrigger">
-        <svg viewBox="0 0 100 100" style="width: 100%; height: auto; display: block;">
-          <circle cx="50" cy="50" r="44" fill="#b45309" stroke="#7c2d12" stroke-width="1.5" />
-          <circle cx="50" cy="50" r="38" fill="#e07a2c" stroke="#b45309" stroke-width="1.2" />
-          <path d="M50 25 L58 45 L80 48 L64 62 L70 84 L50 72 L30 84 L36 62 L20 48 L42 45 Z" fill="#ffd966" stroke="#b45f1b" stroke-width="1.2" stroke-linejoin="round" />
-          <circle cx="50" cy="50" r="6" fill="#9a3412" />
-          <text x="50" y="68" font-size="9" text-anchor="middle" fill="#ffedd5" font-weight="bold">❤</text>
-        </svg>
+  <div class="ambient ambient--left" aria-hidden="true"></div>
+  <div class="ambient ambient--right" aria-hidden="true"></div>
+  <main class="page-shell">
+    <p class="eyebrow">A little something, just for you</p>
+
+    <section class="scene" aria-label="An invitation inside an envelope">
+      <p class="open-hint" id="openHint">Tap the seal to open your letter</p>
+
+      <div class="envelope-container" id="envelopeContainer" role="button" tabindex="0"
+           aria-label="Open the envelope" aria-describedby="openHint">
+        <div class="envelope" id="envelopeBase">
+          <div class="envelope-paper" aria-hidden="true"></div>
+          <div class="envelope-pocket" aria-hidden="true"></div>
+          <div class="flap" id="flap" aria-hidden="true"></div>
+          <div class="inner-letter-preview" aria-hidden="true">
+            <span>for Cyrene</span>
+            <span class="preview-heart">♡</span>
+          </div>
+          <span class="wax-seal" id="waxSealTrigger" aria-hidden="true">
+            <svg viewBox="0 0 100 100" focusable="false">
+              <defs>
+                <radialGradient id="sealGold" cx="32%" cy="25%" r="75%">
+                  <stop offset="0%" stop-color="#f3d995"/>
+                  <stop offset="45%" stop-color="#c5a15b"/>
+                  <stop offset="100%" stop-color="#8d6632"/>
+                </radialGradient>
+                <linearGradient id="sealWax" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#a44d5c"/>
+                  <stop offset="100%" stop-color="#642538"/>
+                </linearGradient>
+              </defs>
+              <path d="M50 5 C59 5 64 10 70 11 C78 13 82 20 84 27 C91 33 93 41 91 49 C94 58 89 66 83 72 C81 81 74 85 66 87 C59 94 49 94 42 91 C33 94 24 89 19 83 C10 80 7 72 8 64 C3 56 5 47 8 40 C7 31 13 24 20 20 C25 11 34 8 42 10 Z" fill="url(#sealWax)" stroke="#552031" stroke-width="2"/>
+              <circle cx="50" cy="49" r="32" fill="url(#sealGold)" stroke="#f2dca6" stroke-width="1.5"/>
+              <path d="M50 67 C44 60 31 51 34 42 C37 34 47 37 50 44 C54 36 65 35 68 43 C72 52 58 62 50 67Z" fill="#762f40" stroke="#762f40" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
       </div>
-      <div class="inner-letter-preview">
-        <p>to: Cyrene</p>
+
+      <p class="under-note">A small invitation, sealed with a little love.</p>
+    </section>
+
+    <section class="sliding-letter" id="slidingLetter" role="dialog" aria-modal="true"
+             aria-labelledby="letterTitle" aria-describedby="letterMessage" aria-hidden="true" tabindex="-1">
+      <button class="close-slide-letter" id="closeSlideBtn" type="button" aria-label="Close letter">×</button>
+      <div class="letter-ornament" aria-hidden="true"><span></span> ♡ <span></span></div>
+      <div class="message-content">
+        <p class="letter-kicker">To my favorite person to encourage</p>
+        <h1 class="romantic-title" id="letterTitle">Hi, Cyrene <span aria-hidden="true">♡</span></h1>
+        <p class="romantic-text" id="letterMessage">Will you join me for an encouragement date this Sunday?</p>
+        <p class="signature" id="letterSignature">With a little love,<br><span>Carl John</span></p>
       </div>
-    </div>
-  </div>
-</div>
+      <div class="letter-buttons" id="letterButtons">
+        <button class="button button--primary" id="yesSlideBtn" type="button">Yes, I'd love to <span aria-hidden="true">♡</span></button>
+        <button class="button button--secondary" id="noSlideBtn" type="button">Maybe later</button>
+      </div>
+      <p class="response-note" id="responseNote" aria-live="polite">No pressure — choose what feels right.</p>
+    </section>
 
-<!-- Sliding Letter -->
-<div class="sliding-letter" id="slidingLetter">
-  <button class="close-slide-letter" id="closeSlideBtn">✕</button>
-  <div class="message-content">
-    <div class="romantic-title">Hi Cyrene =D</div>
-    <div class="romantic-text">
-        Will You Join Me On An Encouragement Date 
-        this SUNDAY?
-    </div>
-    <div class="signature">💖 From Carl John 💖</div>
-  </div>
-  <div class="letter-buttons">
-    <button id="yesSlideBtn">Yes, absolutely 💕</button>
-    <button id="noSlideBtn" class="runaway-btn">Maybe later 🌸</button>
-  </div>
-</div>
-
-<div id="toastMsg" class="toast-feedback">✨</div>
-
-<script src="script.js"></script>
+    <div class="toast-feedback" id="toastMsg" role="status" aria-live="polite" aria-atomic="true"></div>
+    <footer class="page-footer">Made with care <span aria-hidden="true">✦</span></footer>
+  </main>
 </body>
 </html>
