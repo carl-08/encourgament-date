@@ -51,7 +51,7 @@
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const shatterDuration = reduceMotion ? 30 : 1450;
-    const pauseAfterShatter = reduceMotion ? 0 : 420;
+    const pauseAfterShatter = reduceMotion ? 0 : 3000;
     const flapDuration = reduceMotion ? 0 : 720;
 
     // Phase 1: break the wax seal while the envelope stays still.
