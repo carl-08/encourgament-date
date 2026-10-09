@@ -91,6 +91,8 @@
     responseNote.textContent = originalCopy.note;
     yesButton.disabled = false;
     laterButton.disabled = false;
+    laterButton.removeAttribute("aria-disabled");
+    laterButton.classList.remove("response-locked");
     yesButton.hidden = false;
     laterButton.hidden = false;
   }
@@ -132,7 +134,9 @@
     signature.innerHTML = "With a happy heart,<br><span>Carl John</span>";
     responseNote.textContent = "Your yes has been noted — see you Sunday!";
     yesButton.disabled = true;
-    laterButton.disabled = true;
+    laterButton.disabled = false;
+    laterButton.setAttribute("aria-disabled", "true");
+    laterButton.classList.add("response-locked");
     showToast("Invitation accepted with a little love ♡");
   }
 
@@ -144,7 +148,9 @@
     signature.innerHTML = "Wishing you a lovely day,<br><span>Carl John</span>";
     responseNote.textContent = "No pressure. Maybe another time.";
     yesButton.disabled = true;
-    laterButton.disabled = true;
+    laterButton.disabled = false;
+    laterButton.setAttribute("aria-disabled", "true");
+    laterButton.classList.add("response-locked");
     showToast("That’s completely okay ♡");
   }
 
